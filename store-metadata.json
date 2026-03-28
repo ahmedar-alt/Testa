@@ -1,0 +1,58 @@
+{
+  "name": "Tounes Check",
+  "package": "com.tounescheck.app",
+  "iosBundleId": "com.tounescheck.app",
+  "androidVersionCode": 2,
+  "iosVersionCode": 2,
+  "version": "1.0.0",
+  "description": {
+    "short": "Fact Check, restaurant reviews, price comparison for Tunisia 🇹🇳",
+    "full": "Tounes Check is your Tunisian AI assistant that helps you verify rumors, check restaurant reviews, and compare prices. Built for Tunisians, by Tunisians. No more scams, no more overpaying. Matkhalli 7ad ya3diha 3lik!"
+  },
+  "keywords": [
+    "Tunisia",
+    "Tunisian",
+    "fact check",
+    "fake news",
+    "price comparison",
+    "restaurant reviews",
+    "AI assistant",
+    "Tounes",
+    "Bon plan",
+    "Soum",
+    "7keya"
+  ],
+  "contact": {
+    "email": "contact@tounescheck.tn",
+    "website": "https://tounes-check.pages.dev",
+    "phone": "+216..."
+  },
+  "social": {
+    "facebook": "https://facebook.com/tounescheck",
+    "twitter": "https://twitter.com/tounescheck",
+    "instagram": "https://instagram.com/tounescheck"
+  },
+  "screenshots": {
+    "android": [
+      "/screenshots/android-1.png",
+      "/screenshots/android-2.png",
+      "/screenshots/android-3.png"
+    ],
+    "ios": [
+      "/screenshots/ios-1.png",
+      "/screenshots/ios-2.png",
+      "/screenshots/ios-3.png"
+    ]
+  },
+  "permissions": [
+    "internet",
+    "network_state",
+    " vibrations"
+  ],
+  "features": [
+    "offline support",
+    "push notifications",
+    "deep linking",
+    "app shortcuts"
+  ]
+}

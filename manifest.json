@@ -1,21 +1,109 @@
 {
-  "name": "Tounes Check",
+  "name": "Tounes Check - Fact & Price Checker Tunisia",
   "short_name": "Tounes Check",
   "start_url": "/",
+  "scope": "/",
   "display": "standalone",
+  "orientation": "portrait",
   "background_color": "#ffffff",
   "theme_color": "#dc2626",
-  "description": "L'assistant IA tunisien : Fact Check, Resto Check, Soum Check.",
+  "description": "L'assistant IA tunisien: Fact Check, Resto Check, Soum Check. Vérifiez les rumeurs, comparez les prix, trouvez les meilleurs restos.",
+  "categories": ["productivity", "utilities", "news"],
+  "lang": "fr-TN",
+  "dir": "auto",
   "icons": [
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3208/3208726.png",
-      "sizes": "192x192",
-      "type": "image/png"
+      "src": "/icons/icon-72x72.png",
+      "sizes": "72x72",
+      "type": "image/png",
+      "purpose": "maskable any"
     },
     {
-      "src": "https://cdn-icons-png.flaticon.com/512/3208/3208726.png",
+      "src": "/icons/icon-96x96.png",
+      "sizes": "96x96",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-128x128.png",
+      "sizes": "128x128",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-144x144.png",
+      "sizes": "144x144",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-152x152.png",
+      "sizes": "152x152",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-192x192.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-384x384.png",
+      "sizes": "384x384",
+      "type": "image/png",
+      "purpose": "maskable any"
+    },
+    {
+      "src": "/icons/icon-512x512.png",
       "sizes": "512x512",
-      "type": "image/png"
+      "type": "image/png",
+      "purpose": "maskable any"
     }
-  ]
+  ],
+  "screenshots": [
+    {
+      "src": "/screenshots/desktop-1.png",
+      "sizes": "1280x720",
+      "type": "image/png",
+      "form_factor": "wide",
+      "label": "Desktop view of Tounes Check fact checking"
+    },
+    {
+      "src": "/screenshots/mobile-1.png",
+      "sizes": "750x1334",
+      "type": "image/png",
+      "form_factor": "narrow",
+      "label": "Mobile view of Tounes Check price comparison"
+    }
+  ],
+  "prefer_related_applications": false,
+  "related_applications": [],
+  "shortcuts": [
+    {
+      "name": "Fact Check",
+      "short_name": "Fact",
+      "description": "Vérifier une rumeur",
+      "url": "/?mode=FACT",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Restaurant Check",
+      "short_name": "Resto",
+      "description": "Chercher un bon resto",
+      "url": "/?mode=REVIEW",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    },
+    {
+      "name": "Price Check",
+      "short_name": "Price",
+      "description": "Comparer les prix",
+      "url": "/?mode=PRICE",
+      "icons": [{ "src": "/icons/icon-96x96.png", "sizes": "96x96" }]
+    }
+  ],
+  "handle_links": "auto",
+  "launch_handler": {
+    "client_mode": "auto"
+  }
 }
