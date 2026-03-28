@@ -102,68 +102,50 @@ export const InputSection: React.FC<InputSectionProps> = ({ onCheck, isLoading, 
   const color = CONFIG.COLORS[mode];
 
   return (
-    <div className="bg-white rounded-3xl shadow-sm border border-slate-200 mb-6 overflow-hidden transition-all duration-300">
+    <div className="bg-white rounded-2xl shadow-sm border border-slate-200 mb-6 overflow-hidden transition-all duration-300">
       
-      {/* Sélecteur de Mode Agrandi : Plus haut, plus visuel */}
-      <div className="grid grid-cols-3 gap-3 p-3 bg-slate-50 border-b border-slate-100">
-        {(['FACT', 'REVIEW', 'PRICE'] as AppMode[]).map((m) => {
-          const isActive = mode === m;
-          return (
-            <button
-              key={m}
-              onClick={() => setMode(m)}
-              className={`flex flex-col items-center justify-center gap-2 py-6 rounded-2xl text-sm sm:text-base font-black transition-all duration-500 ${
-                isActive 
-                  ? `bg-white text-${CONFIG.COLORS[m]}-600 shadow-lg ring-1 ring-black/5 scale-[1.04]` 
-                  : 'text-slate-400 hover:text-slate-500 bg-transparent'
-              }`}
-            >
-              <span className={`text-4xl sm:text-5xl transition-all duration-700 transform ${
-                  isActive 
-                    ? 'grayscale-0 scale-110 drop-shadow-xl' 
-                    : 'grayscale opacity-100 scale-95'
-              }`}>
-                {m === 'FACT' ? '🕵️‍♂️' : m === 'REVIEW' ? '📍' : '💸'}
-              </span>
-              <span className={`uppercase tracking-tighter text-[10px] sm:text-xs transition-all duration-300 ${isActive ? 'opacity-100' : 'opacity-70'}`}>
-                {m === 'FACT' ? 'Fact Check' : m === 'REVIEW' ? 'Spot Check' : 'Soum Check'}
-              </span>
-            </button>
-          );
-        })}
+      <div className="grid grid-cols-3 gap-2 p-2 bg-slate-50 border-b border-slate-100">
+        {(['FACT', 'REVIEW', 'PRICE'] as AppMode[]).map((m) => (
+          <button
+            key={m}
+            onClick={() => setMode(m)}
+            className={`flex flex-col sm:flex-row items-center justify-center gap-1 py-3 rounded-xl text-xs sm:text-sm font-bold transition-all ${
+              mode === m ? `bg-white text-${CONFIG.COLORS[m]}-600 shadow-sm ring-1 ring-black/5` : 'text-slate-400 hover:text-slate-600'
+            }`}
+          >
+            <span className="text-xl">{m === 'FACT' ? '🕵️‍♂️' : m === 'REVIEW' ? '📍' : '💸'}</span>
+            <span>{m === 'FACT' ? 'Fact' : m === 'REVIEW' ? 'Spot' : 'Soum'}</span>
+          </button>
+        ))}
       </div>
 
-      <div className="p-5 sm:p-8">
+      <div className="p-4 sm:p-6">
         <form onSubmit={handleSubmit}>
             <textarea
-                className={`w-full p-5 bg-white text-slate-900 placeholder:text-slate-400 border-2 border-slate-200 rounded-2xl outline-none transition-all focus:ring-4 focus:ring-${color}-50 focus:border-${color}-500 min-h-[100px] text-lg resize-none`}
+                className={`w-full p-4 bg-white text-slate-900 placeholder:text-slate-400 border-2 border-slate-200 rounded-xl outline-none transition-all focus:ring-4 focus:ring-${color}-50 focus:border-${color}-500 min-h-[80px] resize-none`}
                 placeholder={placeholderText}
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 disabled={isLoading}
             />
 
-            {/* Trends Section : Gardée comme à l'origine */}
-            <div className="mt-4 flex gap-2 overflow-x-auto overflow-y-hidden pb-1 scrollbar-hide items-center min-h-[40px]">
-               <span className="text-[10px] font-black text-slate-400 uppercase whitespace-nowrap py-1 tracking-widest">🔥 TRENDS:</span>
+            {/* Section Trends avec Skeleton et Validation */}
+            <div className="mt-3 flex gap-2 overflow-x-auto pb-2 scrollbar-hide items-center h-8">
+               <span className="text-[10px] font-bold text-slate-400 uppercase whitespace-nowrap py-1">🔥 Trends:</span>
                
                {loadingTrends ? (
-                   <div className="flex gap-2 animate-pulse items-center">
+                   // SKELETON ANIMATION
+                   <div className="flex gap-2 animate-pulse">
                        <div className="h-6 w-20 bg-slate-100 rounded-full"></div>
                        <div className="h-6 w-24 bg-slate-100 rounded-full"></div>
+                       <div className="h-6 w-16 bg-slate-100 rounded-full"></div>
                    </div>
                ) : (
                    trends && trends[mode]?.map((t: any, i: number) => {
+                    // Sécurisation : on n'affiche que si c'est une string valide
                     const label = typeof t === 'string' ? t : (t?.title || t?.name || 'Trend');
                     return (
-                        <button 
-                            key={i} 
-                            type="button" 
-                            onClick={() => onCheck(label, mode)} 
-                            className={`whitespace-nowrap px-4 py-1.5 rounded-full text-xs font-bold border bg-${color}-50 text-${color}-700 border-${color}-100 hover:bg-${color}-100 transition-colors shadow-sm`}
-                        >
-                            {label}
-                        </button>
+                        <button key={i} type="button" onClick={() => onCheck(label, mode)} className={`whitespace-nowrap px-3 py-1 rounded-full text-xs font-medium border bg-${color}-50 text-${color}-600 border-${color}-100 hover:bg-${color}-100 transition-colors`}>{label}</button>
                     );
                   })
                )}
@@ -172,10 +154,10 @@ export const InputSection: React.FC<InputSectionProps> = ({ onCheck, isLoading, 
             <button
                 type="submit"
                 disabled={!input.trim() || isLoading}
-                className={`mt-6 w-full py-5 rounded-2xl font-black text-white text-xl transition-all shadow-xl flex items-center justify-center gap-3
-                ${!input.trim() || isLoading ? 'bg-slate-300 shadow-none translate-y-0' : `bg-${color}-600 hover:bg-${color}-700 active:scale-95 hover:-translate-y-1`}`}
+                className={`mt-4 w-full py-3.5 rounded-xl font-bold text-white transition-all shadow-md flex items-center justify-center gap-2
+                ${!input.trim() || isLoading ? 'bg-slate-300' : `bg-${color}-600 hover:bg-${color}-700 active:scale-95`}`}
             >
-                {isLoading ? <><span className="animate-spin text-2xl">⏳</span> {loadingText}</> : <>Vérifier 🔎</>}
+                {isLoading ? <><span className="animate-spin">⏳</span> {loadingText}</> : <>Vérifier 🔎</>}
             </button>
         </form>
       </div>

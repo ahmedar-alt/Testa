@@ -1,5 +1,4 @@
-
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/Header';
 import { InputSection } from './components/InputSection';
 import { OnboardingModal } from './components/OnboardingModal';
@@ -10,7 +9,7 @@ import { checkFactWithGemini, checkReviewWithGemini, checkPriceWithGemini } from
 import { AppMode } from './types';
 import { safeStorage } from './utils/storage';
 
-// Imports explicites
+// Imports directs pour éviter les flashs
 import { ResultCard } from './components/ResultCard';
 import { ReviewCard } from './components/ReviewCard';
 import { PriceCard } from './components/PriceCard';
@@ -19,6 +18,7 @@ function App() {
   const [mode, setMode] = useState<AppMode>('FACT');
   const [loading, setLoading] = useState(false);
   
+  // On sépare les résultats pour éviter les conflits
   const [results, setResults] = useState<{FACT: any, REVIEW: any, PRICE: any}>({
     FACT: null,
     REVIEW: null,
@@ -46,6 +46,7 @@ function App() {
       else if (currentMode === 'PRICE') data = await checkPriceWithGemini(query);
 
       if (data) {
+        // Mise à jour ciblée du résultat pour le mode en cours
         setResults(prev => ({ ...prev, [currentMode]: data }));
       } else {
         setError("Aucun résultat trouvé. Réessaie !");
@@ -54,10 +55,8 @@ function App() {
       console.error("App Error:", err);
       if (err.message === "QUOTA_EXCEEDED") {
         setQuotaError(true);
-      } else if (err.message.includes("CONFIG_ERROR")) {
-        setError("⚠️ Configuration manquante : La clé API n'est pas activée sur le serveur. Veuillez redéployer sur Cloudflare.");
       } else {
-        setError(err.message || "Problème de connexion. Vérifiez votre internet.");
+        setError("Problème de connexion. Vérifie ton internet.");
       }
     } finally {
       setLoading(false);
@@ -90,9 +89,8 @@ function App() {
         />
 
         {error && (
-          <div className="p-5 mb-6 rounded-2xl bg-red-50 text-red-700 border border-red-200 font-bold text-center animate-fade-in-up shadow-sm">
+          <div className="p-4 mb-6 rounded-xl bg-red-50 text-red-700 border border-red-200 font-bold text-center animate-fade-in-up">
             {error}
-            <button onClick={() => window.location.reload()} className="block mx-auto mt-3 text-xs underline opacity-70">Actualiser la page</button>
           </div>
         )}
 
@@ -104,6 +102,7 @@ function App() {
             </div>
         )}
 
+        {/* Affichage persistant : On affiche le résultat s'il existe et qu'on ne charge pas */}
         {!loading && currentResult && mode === 'FACT' && (
             <ResultCard result={currentResult} onStory={() => setStoryData({data: currentResult, mode: 'FACT'})} />
         )}

@@ -1,4 +1,3 @@
-
 export interface Source {
   nom: string;
   lien: string;
@@ -64,7 +63,6 @@ export interface PriceResult extends BaseResult {
   conseil_achat_derja: string;
   prix_moyen: number;
   price_range?: { min: number; max: number };
-  sources?: Source[];
 }
 
 export type AppMode = 'FACT' | 'REVIEW' | 'PRICE';

@@ -37,10 +37,20 @@ export const PriceCard: React.FC<PriceCardProps> = ({ result, onStory }) => {
     <div className="animate-fade-in-up mt-8">
       {boycottItem && (
         <div className="mb-4 bg-red-50 border-l-4 border-red-500 p-4 rounded-r-xl shadow-sm flex items-start gap-3">
-            <span className="text-2xl">🇵🇸</span>
-            <div>
+            {/* Correction: Image forcée au lieu de l'emoji pour support Windows */}
+            <img 
+                src="https://flagcdn.com/w80/ps.png" 
+                alt="Palestine Flag" 
+                className="w-10 h-auto rounded shadow-sm object-cover border border-slate-200"
+            />
+            <div className="flex-1">
                 <h4 className="font-bold text-red-700 text-sm">Alerte Boycott</h4>
-                <p className="text-xs text-red-600 mt-1">Marque ciblée. Alternative : <strong>{boycottItem.boycott_alternative || 'Marques locales 🇹🇳'}</strong>.</p>
+                <p className="text-xs text-red-600 mt-1 flex flex-wrap items-center gap-1">
+                  Marque ciblée. <span className="text-slate-600">Alternative :</span> 
+                  <strong className="text-emerald-700 bg-emerald-100 px-2 py-0.5 rounded border border-emerald-200">
+                    {boycottItem.boycott_alternative || 'Marques locales 🇹🇳'}
+                  </strong>
+                </p>
             </div>
         </div>
       )}
@@ -93,21 +103,6 @@ export const PriceCard: React.FC<PriceCardProps> = ({ result, onStory }) => {
                 </div>
             )})}
         </div>
-
-        {/* Fix: Display mandatory grounding sources from Search results */}
-        {result.sources && result.sources.length > 0 && (
-            <div className="p-4 bg-slate-50 border-t border-slate-100">
-                <h3 className="text-[10px] font-bold text-slate-400 uppercase tracking-widest mb-3">Sources de vérification (Grounding)</h3>
-                <div className="flex flex-wrap gap-2">
-                    {result.sources.map((source, index) => (
-                    <a key={index} href={source.lien} target="_blank" rel="noopener noreferrer" className="flex items-center gap-1.5 px-2 py-1.5 bg-white border border-slate-200 rounded-lg text-[10px] text-blue-600 hover:bg-blue-50 transition-colors shadow-sm">
-                        <span className="truncate max-w-[120px] font-medium">{source.nom}</span>
-                        <svg className="w-2.5 h-2.5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                    </a>
-                    ))}
-                </div>
-            </div>
-        )}
 
         <div className="p-4 bg-slate-50">
             <ActionToolbar 

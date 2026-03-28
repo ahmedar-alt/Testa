@@ -45,8 +45,9 @@ export const checkWithGemini = async (mode: AppMode, query: string): Promise<any
     sysPrompt = FACT_SYSTEM_INSTRUCTION;
   } else if (mode === 'REVIEW') {
     sysPrompt = SPOT_SYSTEM_INSTRUCTION;
-    // CRUCIAL : On combine Maps ET Search pour trouver les lieux non référencés (Events, Pages FB)
+    // Combinaison Maps + Search pour plus de robustesse
     tools = [{ googleMaps: {} }, { googleSearch: {} }];
+    // On force la version stable
     modelName = "gemini-2.5-flash"; 
   } else {
     sysPrompt = SOUM_SYSTEM_INSTRUCTION;

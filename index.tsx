@@ -1,4 +1,3 @@
-
 import React from 'react';
 import ReactDOM from 'react-dom/client';
 import App from './App';
@@ -12,7 +11,6 @@ if (!rootElement) {
 const root = ReactDOM.createRoot(rootElement);
 root.render(
   <React.StrictMode>
-    {/* Fix: Wrap the App component with ErrorBoundary to catch and handle any runtime rendering errors gracefully */}
     <ErrorBoundary>
       <App />
     </ErrorBoundary>

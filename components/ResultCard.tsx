@@ -20,9 +20,6 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, onStory }) => {
 
   const shareText = `${result.ui_hints.icon} VERDICT : ${result.verdict}\n\n${result.resume}\n\nVérifié par Tounes Check`;
 
-  // Filtrer les sources pour s'assurer qu'elles ont un lien et un nom
-  const validSources = result.sources?.filter(s => s.lien && s.nom) || [];
-
   return (
     <div className="animate-fade-in-up mt-8">
       {!result.is_tunisia_related && (
@@ -50,25 +47,24 @@ export const ResultCard: React.FC<ResultCardProps> = ({ result, onStory }) => {
             </p>
         </div>
 
-        {validSources.length > 0 && (
-            <div className="mb-6">
-                <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Sources de vérification</h3>
-                <div className="flex flex-wrap gap-2">
-                    {validSources.map((source, index) => (
-                    <a key={index} href={source.lien} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-blue-600 hover:bg-blue-50 transition-colors shadow-sm">
-                        <span className="truncate max-w-[150px] font-medium">{source.nom}</span>
-                        <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
-                    </a>
-                    ))}
-                </div>
+        <div className="mb-6">
+            <h3 className="text-xs font-bold text-slate-400 uppercase tracking-wider mb-3">Sources</h3>
+            <div className="flex flex-wrap gap-2">
+                {result.sources.map((source, index) => (
+                <a key={index} href={source.lien} target="_blank" rel="noopener noreferrer" className="flex items-center gap-2 px-3 py-2 bg-white border border-slate-200 rounded-lg text-sm text-blue-600 hover:bg-blue-50 transition-colors shadow-sm">
+                    <span className="truncate max-w-[150px]">{source.nom}</span>
+                    <svg className="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" /></svg>
+                </a>
+                ))}
             </div>
-        )}
+        </div>
 
         <ActionToolbar 
-          shareText={shareText}
-          mode="FACT"
-          onStory={onStory}
-        />
+    shareText={shareText}
+    mode="FACT"
+    onStory={onStory}
+/>
+
       </div>
     </div>
   );

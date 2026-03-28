@@ -1,7 +1,5 @@
+import React, { ErrorInfo, ReactNode } from "react";
 
-import React, { ErrorInfo, ReactNode, Component } from "react";
-
-// Props interface including children. Making it optional resolves some JSX validation errors.
 interface Props {
   children?: ReactNode;
 }
@@ -10,52 +8,31 @@ interface State {
   hasError: boolean;
 }
 
-/**
- * ErrorBoundary is a class component that catches JavaScript errors anywhere in their child component tree,
- * logs those errors, and displays a fallback UI instead of the component tree that crashed.
- */
-// Fix: Use Component directly and explicitly extend it with generic types to ensure 'props' and 'state' are correctly inherited and recognized.
-export class ErrorBoundary extends Component<Props, State> {
-  // Fix: Explicitly define the state property to avoid "Property 'state' does not exist on type 'ErrorBoundary'" error.
+export class ErrorBoundary extends React.Component<Props, State> {
   public state: State = {
     hasError: false,
   };
 
-  // Fix: Explicitly defining the constructor and calling super(props) ensures that 'this.props' is correctly initialized in the component instance.
-  constructor(props: Props) {
-    super(props);
-  }
-
-  /**
-   * getDerivedStateFromError is a static method used to update the state after an error occurs.
-   */
   public static getDerivedStateFromError(_: Error): State {
     return { hasError: true };
   }
 
-  /**
-   * componentDidCatch is used to perform side effects like logging the error or cleaning up local storage.
-   */
   public componentDidCatch(error: Error, errorInfo: ErrorInfo) {
     console.error("Uncaught error:", error, errorInfo);
     
-    // Targeted cache cleanup after a crash to prevent persistent failure states.
+    // NETTOYAGE CIBLE DU CACHE (Au lieu de tout vider)
     try {
         console.warn("Nettoyage sélectif du cache suite au crash...");
-        // Remove only result caches and history, preserving critical user settings like quota.
+        // On supprime seulement les caches de résultats, pas le quota ni le tuto
         Object.keys(localStorage).forEach(key => {
             if (key.includes('tc_v4_cache') || key.includes('history')) {
                 localStorage.removeItem(key);
             }
         });
-    } catch(e) {
-      // Ignore cleanup errors
-    }
+    } catch(e) {}
   }
 
-  // Fix: The render method now correctly identifies 'this.state' and 'this.props' as members inherited from the Component base class.
-  public render(): ReactNode {
-    // If an error has been caught, display the fallback UI.
+  public render() {
     if (this.state.hasError) {
       return (
         <div className="min-h-screen flex flex-col items-center justify-center bg-slate-50 p-6 text-center font-sans">
@@ -76,7 +53,6 @@ export class ErrorBoundary extends Component<Props, State> {
       );
     }
 
-    // Fix: Default behavior is to render the child components using this.props.children, now correctly identified.
     return this.props.children;
   }
 }
