@@ -6,10 +6,7 @@
   "scripts": {
     "dev": "vite",
     "build": "vite build",
-    "preview": "vite preview",
-    "build:android": "npm run build && npx cap sync android && npx cap open android",
-    "build:ios": "npm run build && npx cap sync ios && npx cap open ios",
-    "cap:init": "npx cap init TounesCheck \"Ahmed\" --web-hook=https://tounes-check.pages.dev --app-id=com.tounescheck.app"
+    "preview": "vite preview"
   },
   "dependencies": {
     "@google/genai": "^1.30.0",
@@ -19,36 +16,13 @@
     "react-dom": "^19.0.0"
   },
   "devDependencies": {
-    "@capacitor/android": "^8.3.0",
-    "@capacitor/cli": "^8.3.0",
-    "@capacitor/core": "^8.3.0",
-    "@capacitor/ios": "^8.3.0",
-    "@capacitor/push-notifications": "^8.0.3",
-    "@sentry/react": "^10.46.0",
-    "@sentry/tracing": "^7.120.4",
-    "@tailwindcss/postcss": "^4.2.2",
     "@types/react": "^19.0.0",
     "@types/react-dom": "^19.0.0",
     "@vitejs/plugin-react": "^4.2.1",
-    "autoprefixer": "^10.4.27",
-    "postcss": "^8.5.8",
-    "sharp": "^0.34.5",
-    "tailwindcss": "^4.2.2",
+    "autoprefixer": "^10.4.18",
+    "postcss": "^8.4.35",
+    "tailwindcss": "^3.4.1",
     "typescript": "^5.2.2",
-    "vite": "^5.1.4",
-    "vite-plugin-pwa": "^1.2.0"
-  },
-  "description": "<div align=\"center\"> <img width=\"1200\" height=\"475\" alt=\"GHBanner\" src=\"https://github.com/user-attachments/assets/0aa67016-6eaf-458a-adb2-6e31a0763ed6\" /> </div>",
-  "main": "index.js",
-  "repository": {
-    "type": "git",
-    "url": "https://github.com/ahmedar-alt/Testa.git"
-  },
-  "keywords": [],
-  "author": "",
-  "license": "ISC",
-  "bugs": {
-    "url": "https://github.com/ahmedar-alt/Testa/issues"
-  },
-  "homepage": "https://github.com/ahmedar-alt/Testa#readme"
+    "vite": "^5.1.4"
+  }
 }
