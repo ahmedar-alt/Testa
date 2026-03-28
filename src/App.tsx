@@ -1,14 +1,17 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, Suspense, lazy } from 'react';
 import { Header } from './components/Header';
 import { InputSection } from './components/InputSection';
-import { OnboardingModal } from './components/OnboardingModal';
 import { FactSkeleton, ReviewSkeleton, PriceSkeleton } from './components/SkeletonLoader';
-import { StoryModal } from './components/StoryModal';
-import { PremiumModal } from './components/PremiumModal';
 import { checkFactWithGemini, checkReviewWithGemini, checkPriceWithGemini } from './services/geminiService';
 import { AppMode } from './types';
 import { safeStorage } from './utils/storage';
+
+// Lazy load modales pour réduire bundle initial
+const OnboardingModal = lazy(() => import('./components/OnboardingModal'));
+const StoryModal = lazy(() => import('./components/StoryModal'));
+const PremiumModal = lazy(() => import('./components/PremiumModal'));
+const TrendsDashboard = lazy(() => import('./components/TrendsDashboard'));
 
 // Imports explicites
 import { ResultCard } from './components/ResultCard';
@@ -19,7 +22,6 @@ function App() {
   const [mode, setMode] = useState<AppMode>('FACT');
   const [loading, setLoading] = useState(false);
   const [darkMode, setDarkMode] = useState<boolean>(() => {
-    // Detect system preference or stored preference
     if (typeof window !== 'undefined') {
       const stored = safeStorage.get('darkMode');
       if (stored !== null) return stored;
@@ -27,6 +29,7 @@ function App() {
     }
     return false;
   });
+  const [showTrends, setShowTrends] = useState(false);
   
   const [results, setResults] = useState<{FACT: any, REVIEW: any, PRICE: any}>({
     FACT: null,
@@ -85,13 +88,25 @@ function App() {
 
   const currentResult = results[mode];
 
-  return (
-    <div className="min-h-screen bg-slate-50 flex flex-col font-sans">
-      {showOnboarding && <OnboardingModal onClose={() => { setShowOnboarding(false); safeStorage.set('tounes_check_intro_seen', true); }} />}
-      {quotaError && <PremiumModal onClose={() => setQuotaError(false)} />}
-      {storyData && <StoryModal data={storyData.data} mode={storyData.mode} onClose={() => setStoryData(null)} />}
+  // Lazy modales avec Suspense fallback
+  const renderModal = (component: React.ReactNode) => (
+    <Suspense fallback={null}>
+      {component}
+    </Suspense>
+  );
 
-      <Header darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} />
+  return (
+    <div className="min-h-screen bg-slate-50 flex flex-col font-sans dark:bg-slate-900">
+      {showOnboarding && renderModal(<OnboardingModal onClose={() => { setShowOnboarding(false); safeStorage.set('tounes_check_intro_seen', true); }} />)}
+      {quotaError && renderModal(<PremiumModal onClose={() => setQuotaError(false)} />)}
+      {storyData && renderModal(<StoryModal data={storyData.data} mode={storyData.mode} onClose={() => setStoryData(null)} />)}
+      {showTrends && renderModal(<TrendsDashboard onClose={() => setShowTrends(false)} darkMode={darkMode} />)}
+
+      <Header 
+        darkMode={darkMode} 
+        toggleDarkMode={() => setDarkMode(!darkMode)} 
+        onTrendsClick={() => setShowTrends(true)}
+      />
       
       <main id="main-content" className="max-w-3xl mx-auto px-4 py-6 flex-grow w-full">
         <section className="mb-6 text-center">

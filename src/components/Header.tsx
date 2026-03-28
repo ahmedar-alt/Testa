@@ -4,9 +4,11 @@ import { InstallPWA } from './InstallPWA';
 interface HeaderProps {
   darkMode?: boolean;
   toggleDarkMode?: () => void;
+  showTrends?: boolean;
+  onTrendsClick?: () => void;
 }
 
-export const Header: React.FC<HeaderProps> = ({ darkMode = false, toggleDarkMode }) => {
+export const Header: React.FC<HeaderProps> = ({ darkMode = false, toggleDarkMode, showTrends = true, onTrendsClick }) => {
   return (
     <header className="w-full bg-white border-b border-slate-200 py-4 px-4 sm:px-6 sticky top-0 z-50 dark:bg-slate-900 dark:border-slate-700">
       <div className="max-w-3xl mx-auto flex items-center justify-between">
@@ -29,11 +31,19 @@ export const Header: React.FC<HeaderProps> = ({ darkMode = false, toggleDarkMode
               aria-label={darkMode ? 'Activer le mode clair' : 'Activer le mode sombre'}
               title={darkMode ? 'Mode clair' : 'Mode sombre'}
             >
-              {darkMode ? (
-                <span className="text-xl">☀️</span>
-              ) : (
-                <span className="text-xl">🌙</span>
-              )}
+              {darkMode ? <span className="text-xl">☀️</span> : <span className="text-xl">🌙</span>}
+            </button>
+          )}
+          
+          {/* Trends button */}
+          {showTrends && onTrendsClick && (
+            <button
+              onClick={onTrendsClick}
+              className="p-2 rounded-full hover:bg-slate-100 dark:hover:bg-slate-800 transition-colors"
+              aria-label="Voir les tendances"
+              title="Tendances"
+            >
+              <span className="text-xl">📈</span>
             </button>
           )}
           
