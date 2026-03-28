@@ -18,6 +18,15 @@ import { PriceCard } from './components/PriceCard';
 function App() {
   const [mode, setMode] = useState<AppMode>('FACT');
   const [loading, setLoading] = useState(false);
+  const [darkMode, setDarkMode] = useState<boolean>(() => {
+    // Detect system preference or stored preference
+    if (typeof window !== 'undefined') {
+      const stored = safeStorage.get('darkMode');
+      if (stored !== null) return stored;
+      return window.matchMedia('(prefers-color-scheme: dark)').matches;
+    }
+    return false;
+  });
   
   const [results, setResults] = useState<{FACT: any, REVIEW: any, PRICE: any}>({
     FACT: null,
@@ -29,6 +38,16 @@ function App() {
   const [showOnboarding, setShowOnboarding] = useState(false);
   const [storyData, setStoryData] = useState<{data: any, mode: AppMode} | null>(null);
   const [quotaError, setQuotaError] = useState(false);
+
+  // Apply dark mode class to document
+  useEffect(() => {
+    if (darkMode) {
+      document.documentElement.classList.add('dark');
+    } else {
+      document.documentElement.classList.remove('dark');
+    }
+    safeStorage.set('darkMode', darkMode);
+  }, [darkMode]);
 
   useEffect(() => {
     if (!safeStorage.get('tounes_check_intro_seen', false)) setShowOnboarding(true);
@@ -72,9 +91,9 @@ function App() {
       {quotaError && <PremiumModal onClose={() => setQuotaError(false)} />}
       {storyData && <StoryModal data={storyData.data} mode={storyData.mode} onClose={() => setStoryData(null)} />}
 
-      <Header />
+      <Header darkMode={darkMode} toggleDarkMode={() => setDarkMode(!darkMode)} />
       
-      <main className="max-w-3xl mx-auto px-4 py-6 flex-grow w-full">
+      <main id="main-content" className="max-w-3xl mx-auto px-4 py-6 flex-grow w-full">
         <section className="mb-6 text-center">
           <h2 className={`font-black text-3xl sm:text-5xl ar-text tracking-tight transition-colors duration-300
             ${mode === 'FACT' ? 'text-red-600' : mode === 'REVIEW' ? 'text-orange-600' : 'text-emerald-600'}`} dir="rtl">
