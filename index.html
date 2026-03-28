@@ -46,6 +46,42 @@
     
     <!-- Scripts & Styles -->
     <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            colors: {
+              primary: {
+                50: '#fef2f2',
+                100: '#fee2e2',
+                200: '#fecaca',
+                300: '#fca5a5',
+                400: '#f87171',
+                500: '#dc2626',
+                600: '#E71F1F',
+                700: '#b91c1c',
+                800: '#991b1b',
+                900: '#7f1d1d',
+              },
+            },
+            fontFamily: {
+              'inter': ['Inter', 'sans-serif'],
+              'arabic': ['Almarai', 'Noto Kufi Arabic', 'sans-serif'],
+            },
+            animation: {
+              'fade-in-up': 'fadeInUp 0.5s ease-out forwards',
+            },
+            keyframes: {
+              fadeInUp: {
+                '0%': { opacity: 0, transform: 'translate3d(0, 20px, 0)' },
+                '100%': { opacity: 1, transform: 'translate3d(0, 0, 0)' },
+              }
+            }
+          }
+        }
+      }
+    </script>
     <link href="https://fonts.googleapis.com/css2?family=Almarai:wght@300;400;700;800&family=Inter:wght@400;500;600;700;800&family=Rubik:wght@600;800;900&family=Noto+Kufi+Arabic:wght@400;700&display=swap" rel="stylesheet">
     
     <style>
